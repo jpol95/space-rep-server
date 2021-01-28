@@ -1,4 +1,5 @@
 const express = require('express')
+const jsonParser = express.json()
 const LanguageService = require('./language-service')
 const { requireAuth } = require('../middleware/jwt-auth')
 
@@ -45,13 +46,20 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {
-    const head = await LanguageService.getHead(req.app.get('db'), req.language.head)
+    const head = await LanguageService.getHead(req.app.get('db'), req.language.id)
     res.status(200).send(head)
   })
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
-    // implement me
+  .post('/guess', jsonParser, async (req, res, next) => {
+    const {guess} = req.body;
+    const wordLL = await LanguageService.createLL(req.app.get('db'), req.language.head);
+    console.log(wordLL)
+    if (guess === wordLL.translation){
+      wordLL.head.correct_count++;
+      wordLL.head.memory_value *= 2
+      await LanguageService.
+    }
     res.send('implement me!')
   })
 
