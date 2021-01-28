@@ -30,6 +30,13 @@ const LanguageService = {
     .returning('*')
     .first()
   },
+
+  async updateTable(db, root) {
+   while (root !== null){
+     await this.patchWord(db, root.val.id, root.val)
+     root = root.next;
+   }
+  }, 
   getLanguageWords(db, language_id) {
     return db
       .from("word")

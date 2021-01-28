@@ -57,9 +57,14 @@ languageRouter
     console.log(wordLL)
     if (guess === wordLL.translation){
       wordLL.head.correct_count++;
-      wordLL.head.memory_value *= 2
-      await LanguageService.
+      wordLL.head.memory_value *= 2;
     }
+    else {
+      wordLL.head.incorrect_count--;
+      wordLL.head.memory_value = 1;
+    }
+    wordLL.insertAt(wordLL.memory_value + 1);
+    wordLL.head = wordLL.head.next;
     res.send('implement me!')
   })
 
