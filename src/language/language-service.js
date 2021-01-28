@@ -23,6 +23,7 @@ const LanguageService = {
     .then(rows => rows[0])
   },
   patchWord(db, id, newWord){
+    // console.log("line 26", newWord)
     return db
     .from("word")
     .where({id})
@@ -34,6 +35,7 @@ const LanguageService = {
   async updateTable(db, language, root) {
     await this.patchLanguage(db, language.id, language)
    while (root !== undefined){
+    //  console.log("line38", root)
      await this.patchWord(db, root.val.id, root.val)
      root = root.next;
    }
