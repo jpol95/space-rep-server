@@ -54,7 +54,7 @@ languageRouter
   .post('/guess', jsonParser, async (req, res, next) => {
     const {guess} = req.body;
     const wordLL = await LanguageService.createLL(req.app.get('db'), req.language.head);
-    if (guess === wordLL.translation){
+    if (guess === wordLL.head.val.translation){
       wordLL.head.val.correct_count++;
       wordLL.head.val.memory_value *= 2;
     }
