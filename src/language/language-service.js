@@ -20,7 +20,7 @@ const LanguageService = {
     .where({id})
     .update({...newLanguage})
     .returning('*')
-    .first()
+    .then(rows => rows[0])
   },
   patchWord(db, id, newWord){
     return db
@@ -28,11 +28,12 @@ const LanguageService = {
     .where({id})
     .update({...newWord})
     .returning('*')
-    .first()
+    .then(rows => rows[0])
   },
 
-  async updateTable(db, root) {
-   while (root !== null){
+  async updateTable(db, language, root) {
+    await this.patchLanguage(db, language.id, language)
+   while (root !== undefined){
      await this.patchWord(db, root.val.id, root.val)
      root = root.next;
    }

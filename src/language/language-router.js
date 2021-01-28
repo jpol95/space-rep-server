@@ -54,17 +54,25 @@ languageRouter
   .post('/guess', jsonParser, async (req, res, next) => {
     const {guess} = req.body;
     const wordLL = await LanguageService.createLL(req.app.get('db'), req.language.head);
-    console.log(wordLL)
     if (guess === wordLL.translation){
-      wordLL.head.correct_count++;
-      wordLL.head.memory_value *= 2;
+      wordLL.head.val.correct_count++;
+      wordLL.head.val.memory_value *= 2;
     }
     else {
-      wordLL.head.incorrect_count--;
-      wordLL.head.memory_value = 1;
+      wordLL.head.val.incorrect_count++;
+      wordLL.head.val.memory_value = 1;
     }
-    wordLL.insertAt(wordLL.memory_value + 1);
+    let currentHead = wordLL.head;
     wordLL.head = wordLL.head.next;
+    wordLL.insertAt(currentHead.val.memory_value, currentHead);
+    console.log("line 67", wordLL.head.next)
+    req.language.head = wordLL.head.val.id
+    await LanguageService.updateTable(req.app.get('db'), req.language, wordLL.head)
+    let testing = await LanguageService.createLL(req.app.get('db'), req.language.head)
+    while (testing !== undefined) {
+      console.log(testing.val)
+      testing = testing.next;
+    }
     res.send('implement me!')
   })
 

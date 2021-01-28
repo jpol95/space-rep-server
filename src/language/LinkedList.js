@@ -71,6 +71,7 @@ class LinkedList {
   }
 
   insertAt(index, item) {
+    console.log(this.head)
     if (!this.head) return;
     if (index === 0) this.insertFirst(item);
     let currentNode = this.head;
@@ -78,10 +79,8 @@ class LinkedList {
     for (i = 0; i < index - 1 && currentNode !== null; i++) {
       currentNode = currentNode.next;
     }
-    if (i !== index - 1) {
-      console.log("Invalid index");
-      return;
-    }
+    currentNode.val.next = item.val.id;
+    item.val.next = currentNode.next.val.id;
     currentNode.next = new _Node(item, currentNode.next);
   }
 }
