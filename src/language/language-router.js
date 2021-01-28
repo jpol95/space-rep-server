@@ -66,16 +66,13 @@ languageRouter
     wordLL.head = wordLL.head.next;
     wordLL.insertAt(currentHead.val.memory_value, currentHead);
     let curr = wordLL.head;
-    while (curr !== undefined){
-       console.log(curr.val)
-       curr = curr.next
-    }
     // console.log("line 67", wordLL.head.next)
     req.language.head = wordLL.head.val.id
     await LanguageService.updateTable(req.app.get('db'), req.language, wordLL.head)
     let testing = await LanguageService.createLL(req.app.get('db'), req.language.head)
-    while (testing !== undefined) {
-      console.log(testing.val)
+    testing = testing.head
+    while (testing !== null) {
+      console.log("line74", testing.val)
       testing = testing.next;
     }
     res.send('implement me!')
