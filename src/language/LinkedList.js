@@ -76,11 +76,11 @@ class LinkedList {
     if (index === 0) this.insertFirst(item);
     let currentNode = this.head;
     let i;
-    for (i = 0; i < index - 1 && currentNode !== null; i++) {
+    for (i = 0; i < index - 1 && currentNode.next !== null; i++) {
       currentNode = currentNode.next;
     }
     currentNode.val.next = item.val.id;
-    item.val.next = currentNode.next.val.id;
+    item.val.next = currentNode.next !== null ? currentNode.next.val.id : null;
     currentNode.next = new _Node(item.val, currentNode.next);
   }
 }
