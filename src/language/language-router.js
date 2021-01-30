@@ -51,6 +51,9 @@ languageRouter.get("/head", async (req, res, next) => {
 
 languageRouter.post("/guess", jsonParser, async (req, res, next) => {
   const { guess } = req.body;
+  if (!guess) return res.status(400).send({
+    error: `Missing 'guess' in request body`,
+  })
   const wordLL = await LanguageService.createLL(
     req.app.get("db"),
     req.language.head
@@ -74,9 +77,9 @@ languageRouter.post("/guess", jsonParser, async (req, res, next) => {
     wordLL.head
   );
   let result = {
-    nextWord: currentHead.val.original,
-    wordCorrectCount: currentHead.val.correct_count,
-    wordIncorrectCount: currentHead.val.incorrect_count, 
+    nextWord:  wordLL.head.val.original,
+    wordCorrectCount:  wordLL.head.val.correct_count,
+    wordIncorrectCount:  wordLL.head.val.incorrect_count, 
     totalScore: req.language.total_score, 
     answer: currentHead.val.translation, 
     isCorrect: guess === currentHead.val.translation
