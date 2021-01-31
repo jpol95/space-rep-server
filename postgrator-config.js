@@ -7,3 +7,5 @@ module.exports = {
   ? process.env.TEST_DATABASE_URL
   : process.env.DATABASE_URL,
 }
+
+// "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) npm run migrate",
